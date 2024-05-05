@@ -13,10 +13,10 @@ def get_todos():
 def create_todo():
     data = request.get_json()
     data = data['todo']
-    print("Added new todo: " + data)
-    todo = Todo(id=data['id'], text=data['text'])
+    todo = Todo(id=data['id'], text=data['text'], date=data['date'])
     db.session.add(todo)
     db.session.commit()
+    print("Added new todo: " + data)
     return jsonify(todo.as_dict())
 
 @api_bp.route('/todos/<string:todo_id>', methods=['PUT'])
