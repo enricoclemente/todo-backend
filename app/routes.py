@@ -12,24 +12,27 @@ def get_todos():
 @api_bp.route('/todos', methods=['POST'])
 def create_todo():
     data = request.get_json()
-    todo = Todo(title=data['title'])
+    data = data['todo']
+    print("Added new todo: " + data)
+    todo = Todo(id=data['id'], text=data['text'])
     db.session.add(todo)
     db.session.commit()
-    return jsonify({'message': 'Todo created successfully'})
+    return jsonify(todo.as_dict())
 
-@api_bp.route('/todos/<int:todo_id>', methods=['PUT'])
+@api_bp.route('/todos/<string:todo_id>', methods=['PUT'])
 def update_todo(todo_id):
     todo = Todo.query.get(todo_id)
     data = request.get_json()
-    todo.title = data['title']
     todo.done = data['done']
     todo.important = data['important']
     db.session.commit()
-    return jsonify({'message': 'Todo updated successfully'})
+    print("Modified todo with id: " + todo_id)
+    return jsonify(todo.as_dict())
 
-@api_bp.route('/todos/<int:todo_id>', methods=['DELETE'])
+@api_bp.route('/todos/<string:todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
     todo = Todo.query.get(todo_id)
     db.session.delete(todo)
     db.session.commit()
+    print("Deleted todo with id: " + todo_id)
     return jsonify({'message': 'Todo deleted successfully'})
