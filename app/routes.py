@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from extensions import db
 from models import Todo
+from datetime import datetime
 
 api_bp = Blueprint('api', __name__)
 
@@ -13,10 +14,12 @@ def get_todos():
 def create_todo():
     data = request.get_json()
     data = data['todo']
-    todo = Todo(id=data['id'], text=data['text'], date=data['date'])
+    received_date = datetime(int(data['date'][:4]), int(data['date'][5:7]), int(data['date'][8:10]))
+    todo = Todo(id=data['id'], text=data['text'], date=received_date)
     db.session.add(todo)
     db.session.commit()
-    print("Added new todo: " + data)
+    print("Added new todo: ")
+    print(data)
     return jsonify(todo.as_dict())
 
 @api_bp.route('/todos/<string:todo_id>', methods=['PUT'])

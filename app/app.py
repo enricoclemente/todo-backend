@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todos.sqlite3'
 db.init_app(app)
 
 # enable CORS
-CORS(app, origins=["http://localhost:5173"])
+CORS(app, origins=["http://localhost:5173", "http://127.0.0.1:5173"])
 app.register_blueprint(api_bp, url_prefix='/api')
 
 with app.app_context():
