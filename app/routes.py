@@ -26,10 +26,18 @@ def create_todo():
 def update_todo(todo_id):
     todo = Todo.query.get(todo_id)
     data = request.get_json()
-    todo.done = data['done']
-    todo.important = data['important']
+    if not (data.get('text') is None):
+        todo.text = data['text']
+    if not (data.get('date') is None):
+        received_date = datetime(int(data['date'][:4]), int(data['date'][5:7]), int(data['date'][8:10]))
+        todo.date = received_date
+    if not (data.get('done') is None):
+        todo.done = data['done']
+    if not (data.get('important') is None):
+        todo.important = data['important']
     db.session.commit()
-    print("Modified todo with id: " + todo_id)
+    print("Modified todo with id: " + todo_id + "New data: ")
+    print(data)
     return jsonify(todo.as_dict())
 
 @api_bp.route('/todos/<string:todo_id>', methods=['DELETE'])
