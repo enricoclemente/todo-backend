@@ -1,6 +1,7 @@
 # todo-backend
 
-Implementation of a simple backend for todo-pina-example
+Implementation of a simple backend for todo-pina-example.
+For more info check the docs folder.
 
 ## Requirements
 
@@ -23,5 +24,5 @@ cd app
 Launch the Flask server
 
 ```sh
-flask run
+flask run --port=5000
 ```
